@@ -98,5 +98,11 @@ func inferValue(s string) any {
 	if f, err := strconv.ParseFloat(s, 64); err == nil {
 		return f
 	}
+	if strings.HasPrefix(s, "[") || strings.HasPrefix(s, "{") {
+		var v any
+		if json.Unmarshal([]byte(s), &v) == nil {
+			return v
+		}
+	}
 	return s
 }
